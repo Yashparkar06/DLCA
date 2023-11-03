@@ -1,0 +1,153 @@
+
+mysql> create database Hospital;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| bank               |
+| company            |
+| emplyoee           |
+| hospital           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| shashank           |
+| sys                |
+| yash               |
++--------------------+
+10 rows in set (0.05 sec)
+
+mysql> use Hospital;
+Database changed
+mysql> use hospital;
+Database changed
+mysql> use Hospital;
+Database changed
+mysql> CREATE table Product (prod_id int PRIMARY KEY, Prod_name varchar(60) NOT NULL, Prod_category varchar(255) NOT NULL, Brand_name varchar(255) NOT NULL,
+Suppl_name varchar(255) NOT NULL, Prod_price varchar(225) );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO Product VALUES(1,'Rice','Grocery','Dawat','Ramesh',140);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO Product VALUES(1,'Sugar','Grocery','Dawat','Ramesh',140);
+ERROR 1062 (23000): Duplicate entry '1' for key 'product.PRIMARY'
+mysql> INSERT INTO Product VALUES(2,'Sugar','Grocery','Dawat','Ramesh',140);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Product VALUES(3,'Kurta','Grocery','Dawat','Ramesh',140);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Product VALUES(4,'Jacket','Cloth','Dawa','Ramesh',140);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Product VALUES(5,'Jack','Cloth','Dawa','Ramesh',140);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> CREATE TABLE Time(Time_id int PRIMARY KEY, day DATE NOT NULL, MONTH varchar(255) NOT NULL, QUATER varchar(255) NOT NULL, YEAR varchar(255) NOT NULL);
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO Time VALUES(101, DATE '2020-1-17','FEB','Q1','2021');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Time VALUES(102, DATE '2020-3-17','March','Q2','2022');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Time VALUES(103, DATE '2020-4-18','April','Q3','2023');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> CREATE TABLE Location(LOC_id int  PRIMARY KEY,Street varchar(60)  NOT NULL, City varchar(255) NOT NULL, State varchar(255) NOT NULL, Country varchar(255) NOT NULL);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Time Location(201,'Ml road', 'Mumbai','Maharashtra','India');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Location(201,'Ml road', 'Mumbai','Maharashtra','India')' at line 1
+mysql> INSERT INTO  Location(201,'Ml road', 'Mumbai','Maharashtra','India');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '201,'Ml road', 'Mumbai','Maharashtra','India')' at line 1
+mysql> INSERT INTO  Location VALUES(201,'Ml road', 'Mumbai','Maharashtra','India');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO  Location VALUES(202,'TT road', 'Pune','Maharashtra','India');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO  Location VALUES(202,'SR road', 'Nashik','Maharashtra','India');
+ERROR 1062 (23000): Duplicate entry '202' for key 'location.PRIMARY'
+mysql> INSERT INTO  Location VALUES(203,'SR road', 'Nashik','Maharashtra','India');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO  Location VALUES(203,'PP ROAD', 'Nagpur','Maharashtra','India');
+ERROR 1062 (23000): Duplicate entry '203' for key 'location.PRIMARY'
+mysql> INSERT INTO  Location VALUES(204,'PP ROAD', 'Nagpur','Maharashtra','India');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> CREATE table Fact_Sales(prod_id int REFERENCES Product (prod_id), time_id int REFERENCES Time(Time_id),loc_id int REFERENCES Location(Loc_id),number_of_units_sold int NOT NULL,Total_sales int NOT NULL);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO Fact_Sales values(1,101,201,400,80000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Fact_Sales values(1,103,201,400,70000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Fact_Sales values(1,102,201,400,90000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Fact_Sales values(1,104,201,400,90000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_hospital |
++--------------------+
+| fact_sales         |
+| location           |
+| product            |
+| time               |
++--------------------+
+4 rows in set (0.02 sec)
+
+mysql> select* from Product;
++---------+-----------+---------------+------------+------------+------------+
+| prod_id | Prod_name | Prod_category | Brand_name | Suppl_name | Prod_price |
++---------+-----------+---------------+------------+------------+------------+
+|       1 | Rice      | Grocery       | Dawat      | Ramesh     | 140        |
+|       2 | Sugar     | Grocery       | Dawat      | Ramesh     | 140        |
+|       3 | Kurta     | Grocery       | Dawat      | Ramesh     | 140        |
+|       4 | Jacket    | Cloth         | Dawa       | Ramesh     | 140        |
+|       5 | Jack      | Cloth         | Dawa       | Ramesh     | 140        |
++---------+-----------+---------------+------------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select* from Time;
++---------+------------+-------+--------+------+
+| Time_id | day        | MONTH | QUATER | YEAR |
++---------+------------+-------+--------+------+
+|     101 | 2020-01-17 | FEB   | Q1     | 2021 |
+|     102 | 2020-03-17 | March | Q2     | 2022 |
+|     103 | 2020-04-18 | April | Q3     | 2023 |
++---------+------------+-------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select* from Location;
++--------+---------+--------+-------------+---------+
+| LOC_id | Street  | City   | State       | Country |
++--------+---------+--------+-------------+---------+
+|    201 | Ml road | Mumbai | Maharashtra | India   |
+|    202 | TT road | Pune   | Maharashtra | India   |
+|    203 | SR road | Nashik | Maharashtra | India   |
+|    204 | PP ROAD | Nagpur | Maharashtra | India   |
++--------+---------+--------+-------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select* from Fact_Sales;
++---------+---------+--------+----------------------+-------------+
+| prod_id | time_id | loc_id | number_of_units_sold | Total_sales |
++---------+---------+--------+----------------------+-------------+
+|       1 |     101 |    201 |                  400 |       80000 |
+|       1 |     103 |    201 |                  400 |       70000 |
+|       1 |     102 |    201 |                  400 |       90000 |
+|       1 |     104 |    201 |                  400 |       90000 |
++---------+---------+--------+----------------------+-------------+
+4 rows in set (0.00 sec)

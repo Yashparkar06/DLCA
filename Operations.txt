@@ -1,0 +1,25 @@
+● Slice Operation
+SELECT Prod_name ,Total_sales
+FROM Fact_sales
+INNER JOIN Product_dw
+ON Fact_sales.prod_id =Product_dw.prod_id WHERE prod_name='Rice';
+● Dice Operation
+Select Prod_name ,Fact_sales.total_sales from((Product_dw INNER JOIN Fact_sales ON
+Product_dw.prod_id=Fact_sales.prod_id) JOIN Time_dw ON
+Fact_sales.time_id=Time_dw.time_id) where Prod_name='Rice' and qt='Q1';
+● Roll up Operation
+SELECT yr, SUM(total_sales) FROM (Fact_sales NATURAL JOIN Product_dw)JOIN
+Time_dw ON Fact_sales.time_id=Time_dw.time_id WHERE Prod_name='Rice' GROUP BY
+yr;
+● Drill down Operation
+SELECT qt,SUM(total_sales) FROM (Fact_sales NATURAL JOIN Product_dw)JOIN
+Time_dw ON Fact_sales.time_id=Time_dw.time_id WHERE Prod_name='Rice' GROUP BY
+qt;
+● Pivot Operation
+SELECT YR, [January], [February], [May], [June]
+FROM (Select YR, MONTH, QT
+FROM Time_dw as source_table PIVOT
+(Max(Value) For
+MONTH in ([January], [February], [May], [June])
+) as PIVOT_TABLE
+

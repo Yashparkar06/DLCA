@@ -1,0 +1,36 @@
+Association Rule Mining algorithm (Apriori)
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+%cd '/content/drive/My Drive'
+
+!pip install apyori
+
+%ls
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from apyori import apriori
+
+dataset = pd.read_csv('store_data.csv', header=None)
+transactions = []
+for i in range(0, 51):
+    transactions.append([str(dataset.values[i, j]) for j in range(0, 20)])
+rules = apriori(transactions,
+               min_support=0.003,
+               min_confidence=0.2,
+               min_lift=3,
+               min_length=2)
+MB = list(rules)
+Result = [list(MB[i][0]) for i in range(0, len(MB))]
+for item in Result:
+    pair = item[0]
+    items = [x for x in pair]
+    print("Rule: " + item[0] + " -> " + item[1])
+    print("Support: " + str(item[1]))
+    print("Confidence: " + str(item[1][2][0]))
+    print("Lift: " + str(item[1][2][0]))
+    print("=====================================")
